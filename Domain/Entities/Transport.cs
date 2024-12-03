@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class Transport
     {
-        public string FlightCarrier { get; set; }
-        public string FlightNumber { get; set; }
+        public string? FlightCarrier { get; set; }
+        public string? FlightNumber { get; set; }
     }
 }

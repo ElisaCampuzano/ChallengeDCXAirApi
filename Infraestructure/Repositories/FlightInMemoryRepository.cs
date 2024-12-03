@@ -26,5 +26,10 @@ namespace Infrastructure.Repositories
             }
             return Task.CompletedTask;
         }
+        public Task<IEnumerable<Flight>> GetFlightsByOriginAndDestinationAsync(string origin, string destination)
+        {
+            var result = _flights.Where(f => f.Origin == origin && f.Destination == destination);
+            return Task.FromResult(result);
+        }
     }
 }

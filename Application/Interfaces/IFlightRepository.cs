@@ -11,5 +11,6 @@ namespace Application.Interfaces
     {
         Task<IEnumerable<Flight>> GetAllFlightsAsync();
         Task AddFlightsAsync(IEnumerable<Flight> flights);
+        Task<IEnumerable<Flight>> GetFlightsByOriginAndDestinationAsync(string origin, string destination);
     }
 }

@@ -1,4 +1,5 @@
 using Application.Interfaces;
+using Application.Mapper;
 using Application.Services;
 using Domain.Entities;
 using Infrastructure.Repositories;
@@ -6,14 +7,31 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularLocalhost", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") 
+              .AllowAnyHeader()  
+              .AllowAnyMethod();  
+    });
+});
+
 // Register services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IFlightService, FlightService>();
 builder.Services.AddSingleton<IFlightRepository, FlightInMemoryRepository>();
+builder.Services.AddAutoMapper(typeof(Mapper));
+builder.Services.AddHttpClient<CurrencyConverterService>();
+builder.Services.AddScoped<IAirportService, AirportService>();
+builder.Services.AddScoped<IAirportRepository, AirportRepository>();
 
 var app = builder.Build();
+
+// Enable CORS
+app.UseCors("AllowAngularLocalhost");
 
 // Load JSON data and store in the repository
 using (var scope = app.Services.CreateScope())
